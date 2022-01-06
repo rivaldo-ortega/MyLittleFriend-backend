@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { body } = require('express-validator')
+
+const { signUpCustomer } = require('../controllers/customer.controller');
 
 router.get('/', (req, res, next) => {
     res.status(200).json({
@@ -7,5 +10,15 @@ router.get('/', (req, res, next) => {
         message: 'OK'
     });
 });
+
+router.post('/',
+    body('full_name').notEmpty(),
+    body('email').isEmail().normalizeEmail(),
+    body('password', 'The password must be between 6 and 12 characters long').isLength({ min: 6, max: 12 }),
+    body('address').notEmpty(),
+    body('avatar_url').optional({ checkFalsy: true }).isString(),
+    signUpCustomer
+);
+
 
 module.exports = router;

@@ -1,7 +1,6 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
-require('dotenv').config();
-
 const { port, nodEnv } = require('./config/index');
 const { connectToDb } = require('./config/database');
 
@@ -10,8 +9,9 @@ const PORT = port || 4000;
 
 connectToDb();
 
-const routes = require('./routes/index.js');
+app.use(express.json());
 
+const routes = require('./routes/index.js');
 app.use('/', routes);
 
 const server = http.createServer(app);

@@ -12,7 +12,6 @@ const options = {
 };
 
 exports.connectToDb = () => {
-    console.log(MONGO_URI)
     mongoose.connect(MONGO_URI, options);
     const { connection } = mongoose;
     connection.once('open', () => console.log('Connection stablished'));
