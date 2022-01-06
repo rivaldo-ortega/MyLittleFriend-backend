@@ -27,7 +27,12 @@ const signUpCustomer = async (req, res, next) => {
                 res.status(200).json({
                     message: 'The customer was successfully registered',
                     status: 'OK',
-                    data: newCustomer
+                    data: {
+                        full_name: newCustomer.full_name,
+                        email: newCustomer.email,
+                        address: newCustomer.address,
+                        avatar_url: newCustomer.avatar_url
+                    }
                 });
             } catch (err) {
                 res.status(503).json({

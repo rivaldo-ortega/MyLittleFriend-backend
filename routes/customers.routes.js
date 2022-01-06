@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
 router.post('/',
     body('full_name').notEmpty(),
     body('email').isEmail().normalizeEmail(),
-    body('password', 'The password must be between 6 and 12 characters long').isLength({ min: 6, max: 12 }),
+    body('password', 'The password must be between 6 and 20 characters long').isLength({ min: 6, max: 20 }),
     body('address').notEmpty(),
     body('avatar_url').optional({ checkFalsy: true }).isString(),
     signUpCustomer
