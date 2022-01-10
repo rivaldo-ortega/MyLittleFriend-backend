@@ -2,14 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator')
 
-const { signUpCustomer, loginCustomer } = require('../controllers/customer.controller');
+const { signUpCustomer, loginCustomer, findCustomer } = require('../controllers/customer.controller');
 
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        data: 'Customers list',
-        message: 'OK'
-    });
-});
+router.get('/:customerId', findCustomer);
 
 router.post('/',
     body('full_name').notEmpty(),

@@ -2,6 +2,25 @@ const CustomerServices = require('../services/customer.services');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 
+const findCustomer = async (req, res, next) => {
+    const { customerId } = req.params;
+    try {
+        const customer = await CustomerServices.findById(customerId);
+        res.status(200).json({
+            message: 'The customer was successfully find.',
+            status: 'OK',
+            data: customer
+        });
+
+    } catch (err) {
+        res.status(503).json({
+            message: 'Error processing the request.',
+            status: 'Failed',
+            data: err
+        });
+    }
+}
+
 const signUpCustomer = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -91,4 +110,4 @@ const loginCustomer = async (req, res, next) => {
     }
 }
 
-module.exports = { signUpCustomer, loginCustomer };
+module.exports = { findCustomer, signUpCustomer, loginCustomer };

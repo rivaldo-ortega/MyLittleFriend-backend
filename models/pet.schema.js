@@ -7,7 +7,8 @@ const PetSchema = new Schema({
     birthdate: { type: Date },
     type: { type: String, required: true },
     avatar_url: { type: String },
-    medical_history: [{ type: Schema.Types.ObjectId, ref: 'Attendance' }]
+    medical_history: [{ type: Schema.Types.ObjectId, ref: 'Attendance' }],
+    owner: { type: Schema.Types.ObjectId, ref: 'Customer', required: true }
 });
 
 module.exports = mongoose.model('Pet', PetSchema);
