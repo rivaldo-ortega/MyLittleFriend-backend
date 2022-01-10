@@ -12,10 +12,17 @@ const customerService = {
     },
     async findByEmail(email) {
         try {
-            const user = await Customer.findOne(email);
+            const user = await Customer.findOne(email).select({ __v: 0, pets: 0 });
             return user;
         } catch (err) {
             return err;
+        }
+    },
+    async findById(id) {
+        try {
+
+        } catch (err) {
+
         }
     }
 };
