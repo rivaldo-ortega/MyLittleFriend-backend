@@ -67,6 +67,34 @@ const registerPet = async (req, res, next) => {
 
 }
 
+const updatePet = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(403).json({
+            message: errors,
+            status: 'Failed',
+            data: {}
+        });
+    } else {
+        const { petId } = req.params;
+        const { name, detail, birthdate, type, avatar_url } = req.body;
+        try {
+            await PetServices.updatePetById(petId, { name, detail, birthdate, type, avatar_url, _id: petId });
+            res.status(200).json({
+                message: 'The pet was successfully updated',
+                status: 'OK',
+                data: {}
+            });
+        } catch (err) {
+            res.status(503).json({
+                message: 'The pet could not be updated. Please try again.',
+                status: 'Failed',
+                data: err
+            });
+        }
+    }
+}
+
 const deletePet = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -103,4 +131,4 @@ const deletePet = async (req, res, next) => {
     }
 }
 
-module.exports = { findPet, registerPet, deletePet };
+module.exports = { findPet, registerPet, updatePet, deletePet };
