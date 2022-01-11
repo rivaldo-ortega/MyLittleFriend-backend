@@ -17,6 +17,14 @@ const PetServices = {
         } catch (err) {
             return err;
         }
+    },
+    async deletePetById(id, session) {
+        try {
+            const pet = await Pet.findByIdAndDelete(id, { session }).populate('owner');
+            return pet;
+        } catch (err) {
+            return err;
+        }
     }
 }
 

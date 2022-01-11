@@ -67,4 +67,40 @@ const registerPet = async (req, res, next) => {
 
 }
 
-module.exports = { findPet, registerPet };
+const deletePet = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        res.status(403).json({
+            message: errors,
+            status: 'Failed',
+            data: {}
+        });
+    } else {
+        const { id } = req.body;
+
+        try {
+            const session = await mongoose.startSession();
+            await session.withTransaction(async () => {
+                const pet = await PetServices.deletePetById(id, session);
+                pet.owner.pets.pull(pet);
+                await pet.owner.save({ session });
+            });
+            session.endSession();
+
+            res.status(200).json({
+                message: 'The pet was successfully deleted',
+                status: 'OK',
+                data: {}
+            });
+
+        } catch (err) {
+            res.status(503).json({
+                message: 'The pet could not be deleted. Please try again.',
+                status: 'Failed',
+                data: err
+            });
+        }
+    }
+}
+
+module.exports = { findPet, registerPet, deletePet };
