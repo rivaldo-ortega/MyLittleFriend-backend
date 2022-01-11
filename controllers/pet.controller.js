@@ -2,7 +2,25 @@ const PetServices = require('../services/pet.services');
 const CustomerServices = require('../services/customer.services');
 const { validationResult } = require('express-validator');
 const mongoose = require('mongoose');
-const PetService = require('../services/pet.services');
+
+const findPet = async (req, res, next) => {
+    const { petId } = req.params;
+
+    try {
+        const pet = await PetServices.findPetById(petId);
+        res.status(200).json({
+            message: 'The pet was successfully find.',
+            status: 'OK',
+            data: pet
+        });
+    } catch (err) {
+        res.status(503).json({
+            message: 'Error processing the request.',
+            status: 'Failed',
+            data: err
+        });
+    }
+}
 
 const registerPet = async (req, res, next) => {
     const errors = validationResult(req);
@@ -27,8 +45,7 @@ const registerPet = async (req, res, next) => {
     try {
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {
-            const newPet = await PetService.register({ name, detail, birthdate, type, avatar_url, owner });
-            console.log(newPet);
+            const newPet = await PetServices.register({ name, detail, birthdate, type, avatar_url, owner });
             await petOwner.pets.push(newPet._id);
             await petOwner.save({ session })
         });
@@ -50,4 +67,4 @@ const registerPet = async (req, res, next) => {
 
 }
 
-module.exports = { registerPet };
+module.exports = { findPet, registerPet };

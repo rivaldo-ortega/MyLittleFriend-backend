@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const { registerPet } = require('../controllers/pet.controller');
+const { registerPet, findPet } = require('../controllers/pet.controller');
+
+router.get('/:petId', findPet);
 
 router.post('/',
     body('name').notEmpty().isString(),
@@ -12,5 +14,6 @@ router.post('/',
     body('owner').isString().notEmpty(),
     registerPet
 )
+
 
 module.exports = router;

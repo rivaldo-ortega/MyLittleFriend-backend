@@ -1,6 +1,6 @@
 const Pet = require('../models/pet.schema');
 
-const PetService = {
+const PetServices = {
     async register(pet) {
         try {
             const newPet = await new Pet(pet);
@@ -9,7 +9,15 @@ const PetService = {
         } catch (err) {
             return err;
         }
+    },
+    async findPetById(id) {
+        try {
+            const pet = await Pet.findById(id).select({ __v: 0 });
+            return pet;
+        } catch (err) {
+            return err;
+        }
     }
 }
 
-module.exports = PetService;
+module.exports = PetServices;
