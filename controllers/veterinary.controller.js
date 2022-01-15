@@ -13,7 +13,6 @@ const registerVeterinary = async (req, res, next) => {
     const { name, detail, location, services } = req.body;
     try {
       const newVeterinary = await VeterinaryServices.register({ name, detail, location, services });
-      console.log('newVeterinary',newVeterinary);
       res.status(201).json({
           message: 'The veterinary was successfully registered',
           status: 'OK',
