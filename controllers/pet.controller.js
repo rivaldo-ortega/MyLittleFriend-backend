@@ -1,7 +1,5 @@
 const PetServices = require('../services/pet.services');
-const CustomerServices = require('../services/customer.services');
 const { validationResult } = require('express-validator');
-const mongoose = require('mongoose');
 
 const findPet = async (req, res, next) => {
     const { petId } = req.params;
@@ -32,25 +30,12 @@ const registerPet = async (req, res, next) => {
         });
     }
 
-    const { name, detail, birthdate, type, avatar_url, owner } = req.body;
-    const petOwner = await CustomerServices.findById(owner);
-    if (!petOwner) {
-        res.status(404).json({
-            message: 'The owner could not be found.',
-            status: 'Failed',
-            data: {}
-        });
-    }
+    //const { name, detail, birthdate, type, avatar_url, owner } = req.body;
+    const petJson = { ...req.body };
+    const ownerId = req.body.owner;
 
     try {
-        const session = await mongoose.startSession();
-        await session.withTransaction(async () => {
-            const newPet = await PetServices.register({ name, detail, birthdate, type, avatar_url, owner });
-            await petOwner.pets.push(newPet._id);
-            await petOwner.save({ session })
-        });
-        await session.endSession();
-
+        await PetServices.register(petJson, ownerId);
         res.status(200).json({
             message: 'The pet was successfully registered',
             status: 'OK',
@@ -78,6 +63,7 @@ const updatePet = async (req, res, next) => {
     } else {
         const { petId } = req.params;
         const { name, detail, birthdate, type, avatar_url } = req.body;
+
         try {
             await PetServices.updatePetById(petId, { name, detail, birthdate, type, avatar_url, _id: petId });
             res.status(200).json({
@@ -103,18 +89,12 @@ const deletePet = async (req, res, next) => {
             status: 'Failed',
             data: {}
         });
+
     } else {
         const { id } = req.body;
 
         try {
-            const session = await mongoose.startSession();
-            await session.withTransaction(async () => {
-                const pet = await PetServices.deletePetById(id, session);
-                pet.owner.pets.pull(pet);
-                await pet.owner.save({ session });
-            });
-            session.endSession();
-
+            await PetServices.deletePetById(id);
             res.status(200).json({
                 message: 'The pet was successfully deleted',
                 status: 'OK',
