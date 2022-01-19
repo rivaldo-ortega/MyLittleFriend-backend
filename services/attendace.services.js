@@ -1,11 +1,11 @@
-const Pets = require('../models/pet.schema');
+const Pet = require('../models/pet.schema');
 const Attendance = require('../models/attendance.schema');
 const mongoose = require('mongoose');
 
 const attendanceService = {
   async register(attendance, pet) {
     try{
-      const petAttended =  await Pets.findById(pet)
+      const petAttended =  await Pet.findById(pet)
       if(petAttended){
         /**
          * Start transaction
@@ -31,6 +31,20 @@ const attendanceService = {
       }
     }catch(error){
       return error
+    }
+  },
+  async findByPet(petId) {
+    try{
+      const historyForPet = await Pet.findById(petId).populate({
+        path: 'medical_history',
+        select: { __v: 0 }
+      })
+      if (!historyForPet || !historyForPet.medical_history.length) {
+        throw new Error('Could not find a history for the provided pet.')
+      }
+      return historyForPet;
+    }catch(error){
+      return error;
     }
   },
 }

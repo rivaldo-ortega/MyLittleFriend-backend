@@ -2,8 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const { registerPet, findPet, deletePet, updatePet } = require('../controllers/pet.controller');
+const { getHistoryByPet } = require('../controllers/attendace.controller')
 
 router.get('/:petId', findPet);
+router.get('/:petId/history', getHistoryByPet);
+
 
 router.post('/',
     body('name').isString().notEmpty(),
