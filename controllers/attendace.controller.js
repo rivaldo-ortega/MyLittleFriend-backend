@@ -43,7 +43,7 @@ const getHistoryByPet = async (req, res, next) => {
         res.status(503).json({
             message: 'The history could not be list. Please try again.',
             status: 'Failed',
-            data: err
+            data: error
         });
     }
 }

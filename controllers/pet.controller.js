@@ -111,4 +111,22 @@ const deletePet = async (req, res, next) => {
     }
 }
 
-module.exports = { findPet, registerPet, updatePet, deletePet };
+const findPetsByOwner = async (req, res, next) => {
+    try{
+        const ownerId = req.params.customerId;
+        const pets = await PetServices.getByOwner(ownerId)
+        res.status(200).json({
+            message: 'The pets was successfully list',
+            status: 'OK',
+            data: pets
+        });
+    }catch(error){
+        res.status(503).json({
+            message: 'The pest could not be list. Please try again.',
+            status: 'Failed',
+            data: error
+        });
+    }
+}
+
+module.exports = { findPet, registerPet, updatePet, deletePet, findPetsByOwner };

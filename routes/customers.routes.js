@@ -3,8 +3,10 @@ const router = express.Router();
 const { body } = require('express-validator')
 
 const { signUpCustomer, loginCustomer, findCustomer } = require('../controllers/customer.controller');
+const { findPetsByOwner } = require('../controllers/pet.controller');
 
 router.get('/:customerId', findCustomer);
+router.get('/:customerId/pets', findPetsByOwner);
 
 router.post('/',
     body('full_name').notEmpty(),
