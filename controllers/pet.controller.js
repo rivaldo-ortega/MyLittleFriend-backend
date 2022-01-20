@@ -30,7 +30,6 @@ const registerPet = async (req, res, next) => {
         });
     }
 
-    //const { name, detail, birthdate, type, avatar_url, owner } = req.body;
     const petJson = { ...req.body };
     const ownerId = req.body.owner;
 
@@ -120,7 +119,7 @@ const findPetsByOwner = async (req, res, next) => {
             status: 'OK',
             data: pets
         });
-    }catch(error){
+    } catch (error) {
         res.status(503).json({
             message: 'The pest could not be list. Please try again.',
             status: 'Failed',

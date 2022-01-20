@@ -3,6 +3,10 @@ const express = require('express');
 const http = require('http');
 const { port, nodEnv } = require('./config/index');
 const { connectToDb } = require('./config/database');
+const passport = require('passport');
+
+// Middlewares
+const errorHandler = require('./middlewares/handlerError.middleware')
 
 const app = express();
 const PORT = port || 4000;
@@ -11,8 +15,16 @@ connectToDb();
 
 app.use(express.json());
 
+
+//Inizialice passport
+require('./utils/passport/index');
+app.use(passport.initialize());
+
 const routes = require('./routes/index.js');
 app.use('/', routes);
+
+
+app.use(errorHandler);
 
 const server = http.createServer(app);
 

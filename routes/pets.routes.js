@@ -4,10 +4,15 @@ const { body } = require('express-validator');
 const { registerPet, findPet, deletePet, updatePet } = require('../controllers/pet.controller');
 const { getHistoryByPet } = require('../controllers/attendace.controller')
 
+/**
+ * GET
+ */
 router.get('/:petId', findPet);
 router.get('/:petId/history', getHistoryByPet);
 
-
+/**
+ * POST
+ */
 router.post('/',
     body('name').isString().notEmpty(),
     body('detail').optional({ checkFalsy: true }).isString(),
@@ -18,6 +23,9 @@ router.post('/',
     registerPet
 )
 
+/**
+ * PUT
+ */
 router.put('/:petId',
     body('name').isString().notEmpty(),
     body('detail').optional({ checkFalsy: true }).isString(),
@@ -27,6 +35,9 @@ router.put('/:petId',
     updatePet
 )
 
+/**
+ * DELETE
+ */
 router.delete('/',
     body('id').isString().notEmpty(),
     deletePet
