@@ -12,7 +12,7 @@ const findCustomer = async (req, res, next) => {
             data: customer
         });
 
-    } catch (err) {
+    } catch (error) {
         res.status(503).json({
             message: 'Error processing the request.',
             status: 'Failed',
@@ -47,7 +47,7 @@ const signUpCustomer = async (req, res, next) => {
                     status: 'OK',
                     data: {}
                 });
-            } catch (err) {
+            } catch (error) {
                 res.status(503).json({
                     message: 'The customer could not be registered. Please try again.',
                     status: 'Failed',

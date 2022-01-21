@@ -21,7 +21,7 @@ const registerAttendace = async (req, res, next) => {
             status: 'OK',
             data: newAttendance
         });
-    } catch (err) {
+    } catch (error) {
         res.status(503).json({
             message: 'The attendace could not be registered. Please try again.',
             status: 'Failed',

@@ -9,7 +9,7 @@ const listRequestsService = async (req, res, next) => {
             status: 'OK',
             data: requestsService
         });
-    } catch (err) {
+    } catch (error) {
         res.status(503).json({
             message: 'Error processing the request.',
             status: 'Failed',
@@ -28,7 +28,7 @@ const findRequestService = async (req, res, next) => {
             status: 'OK',
             data: request
         });
-    } catch (err) {
+    } catch (error) {
         res.status(503).json({
             message: 'Error processing the request.',
             status: 'Failed',
@@ -59,7 +59,7 @@ const registerRequestService = async (req, res, next) => {
             data: {}
         });
 
-    } catch (err) {
+    } catch (error) {
         res.status(503).json({
             message: 'The pet could not be registered. Please try again.',
             status: 'Failed',

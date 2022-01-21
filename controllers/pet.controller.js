@@ -11,7 +11,7 @@ const findPet = async (req, res, next) => {
             status: 'OK',
             data: pet
         });
-    } catch (err) {
+    } catch (error) {
         res.status(503).json({
             message: 'Error processing the request.',
             status: 'Failed',
@@ -41,7 +41,7 @@ const registerPet = async (req, res, next) => {
             data: {}
         });
 
-    } catch (err) {
+    } catch (error) {
         res.status(503).json({
             message: 'The pet could not be registered. Please try again.',
             status: 'Failed',
@@ -70,7 +70,7 @@ const updatePet = async (req, res, next) => {
                 status: 'OK',
                 data: {}
             });
-        } catch (err) {
+        } catch (error) {
             res.status(503).json({
                 message: 'The pet could not be updated. Please try again.',
                 status: 'Failed',
@@ -100,7 +100,7 @@ const deletePet = async (req, res, next) => {
                 data: {}
             });
 
-        } catch (err) {
+        } catch (error) {
             res.status(503).json({
                 message: 'The pet could not be deleted. Please try again.',
                 status: 'Failed',

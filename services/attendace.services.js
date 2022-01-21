@@ -20,8 +20,8 @@ const attendanceService = {
           });
           await session.endSession();
           return newAttendance;
-        }catch(error){
-          return error
+        } catch (error) {
+          return erroror
         }
         /**
          * End transaction
@@ -29,8 +29,8 @@ const attendanceService = {
       }else{
         throw new Error(`Pet does't exists in database.`)
       }
-    }catch(error){
-      return error
+    } catch (error) {
+      return erroror
     }
   },
   async findByPet(petId) {
@@ -43,8 +43,8 @@ const attendanceService = {
         throw new Error('Could not find a history for the provided pet.')
       }
       return historyForPet;
-    }catch(error){
-      return error;
+    } catch (error) {
+      return erroror;
     }
   },
 }

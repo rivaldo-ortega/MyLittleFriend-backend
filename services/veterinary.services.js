@@ -6,8 +6,8 @@ const veterinaryService = {
             const newVeterinary = new Veterinary(veterinary);
             await newVeterinary.save();
             return newVeterinary;
-        } catch (err) {
-            return err;
+        } catch (error) {
+            return error;
         }
     },
 

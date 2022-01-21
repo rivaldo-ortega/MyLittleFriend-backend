@@ -18,7 +18,7 @@ const registerVeterinary = async (req, res, next) => {
           status: 'OK',
           data: {}
       });
-    } catch (err) {
+    } catch (error) {
       res.status(503).json({
           message: 'The veterinary could not be registered. Please try again.',
           status: 'Failed',

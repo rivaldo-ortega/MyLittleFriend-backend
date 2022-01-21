@@ -7,8 +7,8 @@ const PetServices = {
         try {
             const pet = await Pet.findById(id).select({ __v: 0 });
             return pet;
-        } catch (err) {
-            return err;
+        } catch (error) {
+            return error;
         }
     },
 
@@ -28,14 +28,14 @@ const PetServices = {
                     await session.endSession();
                     return newPet;
                 } catch (error) {
-                    return error;
+                    return erroror;
                 }
                 /* End transaction */
             } else {
                 throw new Error('This owner does not exist in the database');
             }
-        } catch (err) {
-            return err;
+        } catch (error) {
+            return error;
         }
     },
 
@@ -44,8 +44,8 @@ const PetServices = {
             const newPet = await new Pet(pet);
             const updatePet = await Pet.findByIdAndUpdate(id, newPet);
             return updatePet;
-        } catch (err) {
-            return err;
+        } catch (error) {
+            return error;
         }
     },
 
@@ -62,11 +62,11 @@ const PetServices = {
                 });
                 session.endSession();
                 return;
-            } catch (err) {
-                return err;
+            } catch (error) {
+                return error;
             }
-        } catch (err) {
-            return err;
+        } catch (error) {
+            return error;
         }
 
     },
@@ -78,8 +78,8 @@ const PetServices = {
                 throw new Error('Could not find pets for the provided owner.')
             }
             return pets;
-        }catch(error){
-            return error;
+        } catch (error) {
+            return erroror;
         }
     }
 }
