@@ -1,11 +1,38 @@
 const express = require('express');
 const router = express.Router();
+const { body } = require('express-validator')
 
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        data: 'Customers list',
-        message: 'OK'
-    });
-});
+const { signUpCustomer, loginCustomer, findCustomer } = require('../controllers/customer.controller');
+const { findPetsByOwner } = require('../controllers/pet.controller');
+const passport = require('passport');
+const validateJWT = passport.authenticate('jwt', { session:false, failWithError: true });
+
+/**
+ * GET
+ */
+router.get(
+    '/:customerId',
+    validateJWT,
+    findCustomer
+);
+router.get(
+    '/:customerId/pets',
+    validateJWT,
+    findPetsByOwner
+);
+
+/**
+ * POST
+ */
+router.post(
+    '/',
+    validateJWT,
+    body('full_name').notEmpty(),
+    body('email').isEmail().normalizeEmail(),
+    body('password', 'The password must be between 6 and 20 characters long').isLength({ min: 6, max: 20 }),
+    body('address').notEmpty(),
+    body('avatar_url').optional({ checkFalsy: true }).isString(),
+    signUpCustomer
+);
 
 module.exports = router;

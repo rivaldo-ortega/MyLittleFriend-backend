@@ -1,13 +1,30 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
+const { port, nodEnv } = require('./config/index');
+const { connectToDb } = require('./config/database');
+const passport = require('passport');
+
+// Middlewares
+const errorHandler = require('./middlewares/handlerError.middleware')
 
 const app = express();
-const port = process.env.PORT || 4000;
+const PORT = port || 4000;
+
+connectToDb();
+
+app.use(express.json());
+
+
+//Inizialice passport
+require('./utils/passport/index');
+app.use(passport.initialize());
 
 const routes = require('./routes/index.js');
-
 app.use('/', routes);
+
+app.use(errorHandler);
 
 const server = http.createServer(app);
 
-server.listen(port, () => console.log('Listening on port ' + port));
+server.listen(PORT, () => console.log(`Server running in ${nodEnv} mode on port ${PORT}`));
