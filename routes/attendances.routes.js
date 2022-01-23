@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { body, check } = require('express-validator')
 const { registerAttendace } = require('../controllers/attendace.controller');
+const passport = require('passport');
+const validateJWT = passport.authenticate('jwt', { session:false, failWithError: true });
 
+/**
+ * GET
+ */
 router.get('/', (req, res, next) => {
     res.status(200).json({
         data: 'Attendances list',
@@ -10,7 +15,12 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/',
+/**
+ * POST
+ */
+router.post(
+    '/',
+    validateJWT,
     body('date').isDate(),
     body('veterinary').notEmpty(),
     body('pet').notEmpty(),

@@ -16,7 +16,7 @@ const loginCustomer = (req, res) => {
           avatar_url: req.user.avatar_url,
           token
         }
-    });
+      });
     } else {
       res.status(503).json({
         message: 'The customer could not be login. Please try again.',

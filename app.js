@@ -23,7 +23,6 @@ app.use(passport.initialize());
 const routes = require('./routes/index.js');
 app.use('/', routes);
 
-
 app.use(errorHandler);
 
 const server = http.createServer(app);
