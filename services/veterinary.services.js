@@ -7,7 +7,7 @@ const veterinaryService = {
             await newVeterinary.save();
             return newVeterinary;
         } catch (error) {
-            return error;
+            throw new Error(error);
         }
     },
 

@@ -1,17 +1,16 @@
 const PetServices = require('../services/pet.services');
 const { validationResult } = require('express-validator');
 const asyncHandler = require('../middlewares/asyncHandler.middleware.js');
-const ErrorHttp = require('../middlewares/httpError.middleware');
 
 const findPet = asyncHandler(async (req, res, next) => {
     const { petId } = req.params;
 
     const pet = await PetServices.findPetById(petId);
-    if(pet){
-        throw new ErrorHttp('The pet was successfully find.', 200)
-    } else {
-        throw new Error(errors)
-    }
+        res.status(200).json({
+            message: 'The pet was successfully find.',
+            status: 'OK',
+            data: pet
+        });
 })
 
 const registerPet = asyncHandler(async (req, res, next) => {
@@ -24,11 +23,11 @@ const registerPet = asyncHandler(async (req, res, next) => {
     const ownerId = req.body.owner;
 
     const petService = await PetServices.register(petJson, ownerId);
-    if(petService.errors){
-        throw new ErrorHttp('The pet was successfully registered', 200)
-    } else {
-        throw new Error(errors)
-    }
+        res.status(200).json({
+            message: 'The pet was successfully registered',
+            status: 'OK',
+            data: petService
+        });
 })
 
 const updatePet = asyncHandler(async (req, res, next) => {
@@ -39,12 +38,12 @@ const updatePet = asyncHandler(async (req, res, next) => {
         const { petId } = req.params;
         const { name, detail, birthdate, type, avatar_url } = req.body;
 
-        const petUser = await PetServices.updatePetById(petId, { name, detail, birthdate, type, avatar_url, _id: petId });
-        if(!petUser.errors){
-            throw new ErrorHttp('The pet was successfully updated', 200)
-        } else {
-            throw new Error(errors)
-        }
+        await PetServices.updatePetById(petId, { name, detail, birthdate, type, avatar_url, _id: petId });
+            res.status(200).json({
+                message: 'The pet was successfully updated',
+                status: 'OK',
+                data: {}
+            });
     }
 }
 
@@ -57,24 +56,24 @@ const deletePet = asyncHandler(async (req, res, next) => {
     } else {
         const { id } = req.body;
 
-        const petDelete = await PetServices.deletePetById(id);
-        if(!petDelete.errors){
-            throw new ErrorHttp('The pet was successfully deleted', 200)
-        } else {
-            throw new Error(errors)
-        }
+        await PetServices.deletePetById(id);
+            res.status(200).json({
+                message: 'The pet was successfully deleted',
+                status: 'OK',
+                data: {}
+            });
     }
 })
 
 const findPetsByOwner = asyncHandler(async (req, res, next) => {
 
     const ownerId = req.params.customerId;
-    const pets = await PetServices.getByOwner(ownerId)
-    if(pets){
-        throw new ErrorHttp('The pets was successfully list', 200)
-    }else {
-        throw new Error(errors)
-    }
+    await PetServices.getByOwner(ownerId)
+        res.status(200).json({
+            message: 'The pets was successfully list',
+            status: 'OK',
+            data: pets
+        });
 })
 
 module.exports = { findPet, registerPet, updatePet, deletePet, findPetsByOwner };
