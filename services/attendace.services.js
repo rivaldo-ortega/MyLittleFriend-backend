@@ -31,7 +31,7 @@ const attendanceService = {
         throw new ErrorHttp(`Pet does't exists in database.`, 404)
       }
     } catch (error) {
-      return error
+      throw new Error(error)
     }
   },
   async findByPet(petId) {
@@ -45,7 +45,7 @@ const attendanceService = {
       }
       return historyForPet;
     } catch (error) {
-      return error;
+      throw new Error(error)
     }
   },
 }

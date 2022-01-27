@@ -8,7 +8,7 @@ const PetServices = {
             const serviceRequests = await RequestService.find();
             return serviceRequests;
         } catch (error) {
-            return error;
+            throw new Error(error);
         }
     },
 
@@ -17,7 +17,7 @@ const PetServices = {
             const serviceReq = await RequestService.findById(id).select({ __v: 0 });
             return serviceReq;
         } catch (error) {
-            return error;
+            throw new Error(error);
         }
     },
 
@@ -30,7 +30,7 @@ const PetServices = {
             await newRequestService.save()
             return newRequestService;
         } catch (error) {
-            return error;
+            throw new Error(error);
         }
     },
 }
