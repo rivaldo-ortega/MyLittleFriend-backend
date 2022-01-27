@@ -26,7 +26,7 @@ router.get(
  */
 router.post(
     '/',
-    validateJWT,
+    
     body('full_name').notEmpty(),
     body('email').isEmail().normalizeEmail(),
     body('password', 'The password must be between 6 and 20 characters long').isLength({ min: 6, max: 20 }),

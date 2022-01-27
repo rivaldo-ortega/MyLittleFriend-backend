@@ -1,4 +1,5 @@
 const Customer = require('../models/customer.schema');
+const ErrorHttp = require('../middlewares/httpError.middleware')
 
 const customerService = {
     async register(customer) {
@@ -7,7 +8,7 @@ const customerService = {
             await newCustomer.save();
             return newCustomer;
         } catch (error) {
-            return error;
+            throw new ErrorHttp(error, 503);
         }
     },
     async findByEmail(email) {
@@ -15,7 +16,7 @@ const customerService = {
             const customer = await Customer.findOne(email).select({ __v: 0, pets: 0 });
             return customer;
         } catch (error) {
-            return error;
+            throw new ErrorHttp(error, 503);
         }
     },
     async findById(id) {
@@ -23,7 +24,7 @@ const customerService = {
             const customer = Customer.findById(id).select({ __v: 0, password: 0 });
             return customer;
         } catch (error) {
-            return error;
+            throw new ErrorHttp(error, 503);
         }
     }
 };

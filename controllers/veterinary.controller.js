@@ -1,31 +1,21 @@
 const VeterinaryServices = require('../services/veterinary.services');
 const { validationResult } = require('express-validator');
+const asyncHandler = require('../middlewares/asyncHandler.middleware.js');
+const ErrorHttp = require('../middlewares/httpError.middleware');
 
-const registerVeterinary = async (req, res, next) => {
+const registerVeterinary = asyncHandler(async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-      res.status(403).json({
-          message: errors,
-          status: 'Failed',
-          data: {}
-      });
+      next(errors)
   } else {
     const { name, detail, location, services } = req.body;
-    try {
-      const newVeterinary = await VeterinaryServices.register({ name, detail, location, services });
-      res.status(201).json({
-          message: 'The veterinary was successfully registered',
-          status: 'OK',
-          data: {}
-      });
-    } catch (error) {
-      res.status(503).json({
-          message: 'The veterinary could not be registered. Please try again.',
-          status: 'Failed',
-          data: err
-      });
+    const newVeterinary = await VeterinaryServices.register({ name, detail, location, services });
+    if(!newVeterinary.errors){
+      throw new ErrorHttp('The veterinary was successfully registered', 201)
+    } else {
+      throw new Error(errors)
     }
   }
-}
+})
 
 module.exports = { registerVeterinary };

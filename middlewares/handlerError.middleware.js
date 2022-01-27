@@ -9,7 +9,7 @@ const handlerError =  (error, req, res, next) => {
       data: {}
     })
   }
-    res.status(error.status || 503).json({
+    res.status(error.code || 503).json({
       message: error.message || 'Internal error. Please, try again.',
       status: 'Failed',
       data: {}
