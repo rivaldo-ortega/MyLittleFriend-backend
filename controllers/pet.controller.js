@@ -1,131 +1,80 @@
 const PetServices = require('../services/pet.services');
 const { validationResult } = require('express-validator');
+const asyncHandler = require('../middlewares/asyncHandler.middleware.js');
+const ErrorHttp = require('../middlewares/httpError.middleware');
 
-const findPet = async (req, res, next) => {
+const findPet = asyncHandler(async (req, res, next) => {
     const { petId } = req.params;
 
-    try {
-        const pet = await PetServices.findPetById(petId);
-        res.status(200).json({
-            message: 'The pet was successfully find.',
-            status: 'OK',
-            data: pet
-        });
-    } catch (error) {
-        res.status(503).json({
-            message: 'Error processing the request.',
-            status: 'Failed',
-            data: err
-        });
+    const pet = await PetServices.findPetById(petId);
+    if(pet){
+        throw new ErrorHttp('The pet was successfully find.', 200)
+    } else {
+        throw new Error(errors)
     }
-}
+})
 
-const registerPet = async (req, res, next) => {
+const registerPet = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.status(403).json({
-            message: errors,
-            status: 'Failed',
-            data: {}
-        });
+        next(errors)
     }
 
     const petJson = { ...req.body };
     const ownerId = req.body.owner;
 
-    try {
-        await PetServices.register(petJson, ownerId);
-        res.status(200).json({
-            message: 'The pet was successfully registered',
-            status: 'OK',
-            data: {}
-        });
-
-    } catch (error) {
-        res.status(503).json({
-            message: 'The pet could not be registered. Please try again.',
-            status: 'Failed',
-            data: err
-        });
+    const petService = await PetServices.register(petJson, ownerId);
+    if(petService.errors){
+        throw new ErrorHttp('The pet was successfully registered', 200)
+    } else {
+        throw new Error(errors)
     }
+})
 
-}
-
-const updatePet = async (req, res, next) => {
+const updatePet = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.status(403).json({
-            message: errors,
-            status: 'Failed',
-            data: {}
-        });
+        next(errors)
     } else {
         const { petId } = req.params;
         const { name, detail, birthdate, type, avatar_url } = req.body;
 
-        try {
-            await PetServices.updatePetById(petId, { name, detail, birthdate, type, avatar_url, _id: petId });
-            res.status(200).json({
-                message: 'The pet was successfully updated',
-                status: 'OK',
-                data: {}
-            });
-        } catch (error) {
-            res.status(503).json({
-                message: 'The pet could not be updated. Please try again.',
-                status: 'Failed',
-                data: err
-            });
+        const petUser = await PetServices.updatePetById(petId, { name, detail, birthdate, type, avatar_url, _id: petId });
+        if(!petUser.errors){
+            throw new ErrorHttp('The pet was successfully updated', 200)
+        } else {
+            throw new Error(errors)
         }
     }
 }
 
-const deletePet = async (req, res, next) => {
+) 
+
+const deletePet = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        res.status(403).json({
-            message: errors,
-            status: 'Failed',
-            data: {}
-        });
-
+        next(errors)
     } else {
         const { id } = req.body;
 
-        try {
-            await PetServices.deletePetById(id);
-            res.status(200).json({
-                message: 'The pet was successfully deleted',
-                status: 'OK',
-                data: {}
-            });
-
-        } catch (error) {
-            res.status(503).json({
-                message: 'The pet could not be deleted. Please try again.',
-                status: 'Failed',
-                data: err
-            });
+        const petDelete = await PetServices.deletePetById(id);
+        if(!petDelete.errors){
+            throw new ErrorHttp('The pet was successfully deleted', 200)
+        } else {
+            throw new Error(errors)
         }
     }
-}
+})
 
-const findPetsByOwner = async (req, res, next) => {
-    try{
-        const ownerId = req.params.customerId;
-        const pets = await PetServices.getByOwner(ownerId)
-        res.status(200).json({
-            message: 'The pets was successfully list',
-            status: 'OK',
-            data: pets
-        });
-    } catch (error) {
-        res.status(503).json({
-            message: 'The pest could not be list. Please try again.',
-            status: 'Failed',
-            data: error
-        });
+const findPetsByOwner = asyncHandler(async (req, res, next) => {
+
+    const ownerId = req.params.customerId;
+    const pets = await PetServices.getByOwner(ownerId)
+    if(pets){
+        throw new ErrorHttp('The pets was successfully list', 200)
+    }else {
+        throw new Error(errors)
     }
-}
+})
 
 module.exports = { findPet, registerPet, updatePet, deletePet, findPetsByOwner };

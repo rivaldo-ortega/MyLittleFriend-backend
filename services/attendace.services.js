@@ -1,6 +1,7 @@
 const Pet = require('../models/pet.schema');
 const Attendance = require('../models/attendance.schema');
 const mongoose = require('mongoose');
+const ErrorHttp = require('../middlewares/httpError.middleware');
 
 const attendanceService = {
   async register(attendance, pet) {
@@ -10,9 +11,9 @@ const attendanceService = {
         /**
          * Start transaction
          */
-        try{
-          const newAttendance = new Attendance(attendance);
-          const session = await mongoose.startSession();
+        const newAttendance = new Attendance(attendance);
+        const session = await mongoose.startSession();
+        if(session){
           await session.withTransaction(async () => {
             await newAttendance.save({ session });
             await petAttended.medical_history.push(newAttendance._id);
@@ -20,17 +21,17 @@ const attendanceService = {
           });
           await session.endSession();
           return newAttendance;
-        } catch (error) {
-          return erroror
-        }
+        } else {
+          throw new ErrorHttp(error, 503)
+        }    
         /**
          * End transaction
          */
       }else{
-        throw new Error(`Pet does't exists in database.`)
+        throw new ErrorHttp(`Pet does't exists in database.`, 404)
       }
     } catch (error) {
-      return erroror
+      return error
     }
   },
   async findByPet(petId) {
@@ -40,11 +41,11 @@ const attendanceService = {
         select: { __v: 0 }
       })
       if (!historyForPet || !historyForPet.medical_history.length) {
-        throw new Error('Could not find a history for the provided pet.')
+        throw new ErrorHttp('Could not find a history for the provided pet.', 404)
       }
       return historyForPet;
     } catch (error) {
-      return erroror;
+      return error;
     }
   },
 }
