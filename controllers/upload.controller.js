@@ -3,8 +3,8 @@ const cloudinary = require('cloudinary');
 
 cloudinary.config({
   cloud_name: 'mylittlefriend',
-  api_key: '921586825242116',
-  api_secret: 'fhePlpPiSWjR2W5ePmltpWk0UcI',
+  api_key: '',
+  api_secret: '',
 });
 
 function uploadHandler(req, res) {
