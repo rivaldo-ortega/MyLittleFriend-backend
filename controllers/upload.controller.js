@@ -2,16 +2,34 @@ const fs = require('fs');
 const cloudinary = require('cloudinary');
 
 cloudinary.config({
-  cloud_name: 'mylittlefriend',
-  api_key: '',
-  api_secret: '',
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_SECRET_KEY,
 });
-
-function uploadHandler(req, res) {
-  const { files } = req;
+async function uploadSigleHandler(req, res) {
+  const { file, body } = req;
   const response = [];
 
-  for (const singleFile in files) {
+  try {
+    const result = await cloudinary.uploader.upload(file.path);
+    response.push(result);
+  } catch (e) {
+    res.status(500).json(e);
+  } finally {
+    fs.unlinkSync(file.path);
+  }
+
+  res.status(200).json({
+    msg: 'success upload',
+    response,
+  });
+}
+
+async function uploadMultipleHandler(req, res) {
+  const { files, body } = req;
+  const response = [];
+
+  for (const singleFile of files) {
     try {
       const result = await cloudinary.uploader.upload(singleFile.path);
       response.push(result);
@@ -27,5 +45,6 @@ function uploadHandler(req, res) {
   });
 }
 module.exports = {
-  uploadHandler,
+  uploadSigleHandler,
+  uploadMultipleHandler,
 };
