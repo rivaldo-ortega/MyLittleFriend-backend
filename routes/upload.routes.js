@@ -7,7 +7,7 @@ const {
 const multer = require('multer');
 
 const upload = multer({
-  dest: '.temp',
+  dest: 'temp',
 });
 
 router.post('/file', upload.single('image'), uploadSigleHandler);
