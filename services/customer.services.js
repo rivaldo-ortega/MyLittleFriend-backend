@@ -34,7 +34,6 @@ const customerService = {
             const customerUpdated = await customer.save();
             return customerUpdated;
         } catch (error) {
-            console.log('error', error);
             throw new ErrorHttp(error, 503);
         }
     },
