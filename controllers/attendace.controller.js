@@ -21,7 +21,7 @@ const registerAttendace = asyncHandler(async (req, res, next) => {
 
 const getHistoryByPet = asyncHandler(async(req, res, next) => {
     const petId = req.params.petId;
-    
+
     const history = await attendanceService.findByPet(petId);
         res.status(200).json({
             message: 'The history was successfully list.',
