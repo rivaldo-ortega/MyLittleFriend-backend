@@ -8,7 +8,10 @@ const CustomerSchema = new Schema({
     password: { type: String, required: true },
     address: { type: String, required: true, maxLength: 120 },
     pets: [{ type: Schema.Types.ObjectId, ref: 'Pet' }],
-    avatar_url: { type: String }
+    avatar_url: { type: String },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {type: Boolean, default: false},
 });
 
 module.exports = mongoose.model('Customer', CustomerSchema);

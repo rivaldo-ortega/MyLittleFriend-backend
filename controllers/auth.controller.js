@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const asyncHandler = require('../middlewares/asyncHandler.middleware');
+const {activeUser} = require('../services/customer.services')
 
 const loginCustomer = (req, res) => {
     if(req.user){
@@ -26,4 +28,22 @@ const loginCustomer = (req, res) => {
     }
 }
 
-module.exports = { loginCustomer };
+const verifyAccount = asyncHandler( async (req, res, next) => {
+  const {hash} = req.body;
+    const user = await activeUser({passwordResetToken: hash})
+    console.log(user)
+    if(!user){
+      return res.status(400).json({ message: 'Invalid'})
+    }
+    if(Date.now() > user.papasswordResetExpires){
+      return res.status(404).json({ message: 'Expired token'})
+    }
+    
+    
+    return res.status(200).json({
+      message: 'Account verified!',
+      user,
+    });
+})
+
+module.exports = { loginCustomer, verifyAccount };

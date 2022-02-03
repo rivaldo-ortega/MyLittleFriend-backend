@@ -6,6 +6,7 @@ const customerService = {
         try {
             const newCustomer = new Customer(customer);
             await newCustomer.save();
+            console.log(newCustomer)
             return newCustomer;
         } catch (error) {
             throw new ErrorHttp(error, 503);
@@ -26,7 +27,21 @@ const customerService = {
         } catch (error) {
             throw new ErrorHttp(error, 503);
         }
-    }
+    },
+    async activeUser(query) {
+        try{
+            const userVali = await Customer.findOne(query);
+            userVali.active = true;
+            userVali.passwordResetToken = null;
+            userVali.passwordResetExpires = null;
+            await userVali.save();
+            return userVali;
+        } catch (error){
+            return new ErrorHttp(error, 404)
+        }
+        
+      }
+    
 };
 
 module.exports = customerService;
