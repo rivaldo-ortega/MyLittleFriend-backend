@@ -27,15 +27,6 @@ const registerCustomer = async(customer) => {
   }
 };
 
-const deleteCustomer = async(customer) => {
-  try{
-    const customerDeleted = await epayco.customers.delete(customer)
-    return customerDeleted
-  } catch (error) {
-    throw new ErrorHttp(error, 503);
-  }
-};
-
 const registarCardForCustomer = async(cardCustomer) => {
   try{
     const cardPushed = await epayco.customers.addNewToken(cardCustomer);
@@ -54,4 +45,4 @@ const registerPayment = async(pay) => {
   }
 };
 
-module.exports = { registerCard, registerCustomer, registarCardForCustomer, registerPayment, deleteCustomer }
+module.exports = { registerCard, registerCustomer, registarCardForCustomer, registerPayment }

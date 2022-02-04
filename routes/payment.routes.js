@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const passport = require('passport');
-const { generetaCardtoken, generateCustomerToken, makePayment, deleteCustomerTk } = require('../utils/epayco/controller.js');
+const { generetaCardtoken, generateCustomerToken, makePayment } = require('../utils/epayco/controller.js');
 const validateJWT = passport.authenticate('jwt', { session:false, failWithError: true });
 
 router.post('/customer',
-//validateJWT,
+  validateJWT,
   body('cardToken').isString(),
   body('name').isString(),
   body('lastName').isString(),
@@ -19,7 +19,7 @@ router.post('/customer',
 );
 
 router.post('/card',
-//validateJWT,
+  validateJWT,
   body('number').isString(),
   body('expYear').isString(),
   body('month').isString(),
@@ -28,7 +28,7 @@ router.post('/card',
 );
 
 router.post('/',
-//validateJWT,
+  validateJWT,
   body('cardToken').isString(),
   body('docType').isString(),
   body('docNumber').isString(),
@@ -44,11 +44,6 @@ router.post('/',
   body('dues').isString(),
   body('ip').isString(),
   makePayment
-)
-
-router.delete('/',
-//validateJWT,
-  deleteCustomerTk
 )
 
 module.exports = router;

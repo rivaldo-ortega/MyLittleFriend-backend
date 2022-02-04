@@ -118,12 +118,4 @@ const makePayment = asyncHandler(async (req, res, next) => {
 
 });
 
-const deleteCustomerTk = async(req, res, next) => {
-  const deleted = await deleteCustomer({ customer_id: req.body.id, franchise : "visa",
-  mask : "457562******0326"});
-  res.status(200).json({
-    deleted
-  })
-}
-
-module.exports = { generetaCardtoken, generateCustomerToken, makePayment, deleteCustomerTk }
+module.exports = { generetaCardtoken, generateCustomerToken, makePayment }
