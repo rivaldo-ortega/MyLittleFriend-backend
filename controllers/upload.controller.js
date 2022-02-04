@@ -8,10 +8,12 @@ cloudinary.config({
 });
 async function uploadSigleHandler(req, res) {
   const { file, body } = req;
+  console.log('file', file);
   const response = [];
 
   try {
     const result = await cloudinary.uploader.upload(file.path);
+    console.log(result);
     response.push(result);
   } catch (e) {
     res.status(500).json(e);
