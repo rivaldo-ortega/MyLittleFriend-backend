@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_SECRET_KEY,
 });
 async function uploadSigleHandler(req, res) {
-  console.log('req', req);
+  console.log('req', req.body);
   const { file, body } = req;
 
   console.log('files', file);
@@ -20,7 +20,7 @@ async function uploadSigleHandler(req, res) {
   } catch (e) {
     res.status(500).json(e);
   } finally {
-    fs.unlinkSync(file.path);
+    //fs.unlinkSync(file.path);
   }
 
   res.status(200).json({
