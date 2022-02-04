@@ -5,8 +5,16 @@ const { port, nodEnv } = require('./config/index');
 const { connectToDb } = require('./config/database');
 const passport = require('passport');
 
+//cors
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
 // Middlewares
-const errorHandler = require('./middlewares/handlerError.middleware')
+const errorHandler = require('./middlewares/handlerError.middleware');
 
 const app = express();
 const PORT = port || 4000;
@@ -14,7 +22,6 @@ const PORT = port || 4000;
 connectToDb();
 
 app.use(express.json());
-
 
 //Inizialice passport
 require('./utils/passport/index');
@@ -27,4 +34,6 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
-server.listen(PORT, () => console.log(`Server running in ${nodEnv} mode on port ${PORT}`));
+server.listen(PORT, () =>
+  console.log(`Server running in ${nodEnv} mode on port ${PORT}`)
+);
