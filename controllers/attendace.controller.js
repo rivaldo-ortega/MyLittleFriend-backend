@@ -12,22 +12,22 @@ const registerAttendace = asyncHandler(async (req, res, next) => {
     const petId = req.body.pet;
 
     const newAttendance = await attendanceService.register(attendaceJson, petId);
-        res.status(200).json({
-            message: 'The attendance was successfully registered.',
-            status: 'OK',
-            data: newAttendance
-        });
+    res.status(200).json({
+        message: 'The attendance was successfully registered.',
+        status: 'OK',
+        data: newAttendance
+    });
 });
 
 const getHistoryByPet = asyncHandler(async(req, res, next) => {
     const petId = req.params.petId;
 
     const history = await attendanceService.findByPet(petId);
-        res.status(200).json({
-            message: 'The history was successfully list.',
-            status: 'OK',
-            data: history
-        });
+    res.status(200).json({
+        message: 'The history was successfully list.',
+        status: 'OK',
+        data: history
+    });
 })
 
 module.exports = { registerAttendace, getHistoryByPet }
