@@ -6,7 +6,6 @@ const customerService = {
         try {
             const newCustomer = new Customer(customer);
             await newCustomer.save();
-            console.log(newCustomer)
             return newCustomer;
         } catch (error) {
             throw new ErrorHttp(error, 503);

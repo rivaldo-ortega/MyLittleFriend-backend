@@ -40,7 +40,7 @@ const signUpCustomer = asyncHandler(async (req, res, next) => {
             template_id: 'd-51870cb2f39a4dfb89dfba7cbb827c39',
             dynamic_template_data: {
                 firstName: newUser.full_name,
-                url: `https://localhost:3000/activate/${newUser.passwordResetToken}`,
+                url: `${process.env.URL_VALIDATE_REGISTER}/${newUser.passwordResetToken}`,
                 urlHome:'https://eager-ramanujan-86071f.netlify.app/',
             },
         }
