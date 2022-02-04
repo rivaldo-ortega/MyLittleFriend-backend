@@ -1,35 +1,36 @@
 const fs = require('fs');
 const cloudinary = require('cloudinary');
+const ErrorHttp = require('../middlewares/httpError.middleware');
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_SECRET_KEY,
 });
-async function uploadSigleHandler(req, res) {
-  console.log('req', req.body);
+async function uploadSingleHandler(req, res, next) {
   const { file, body } = req;
+  let response = null;
 
-  console.log('files', file);
-  const response = [];
-
-  try {
-    const result = await cloudinary.uploader.upload(file.path);
-
-    response.push(result);
-  } catch (e) {
-    res.status(500).json(e);
-  } finally {
-    //fs.unlinkSync(file.path);
+  if (file) {
+    try {
+      const result = await cloudinary.uploader.upload(file.path);
+      response = result;
+    } catch (e) {
+      res.status(500).json(e);
+    } finally {
+      fs.unlinkSync(file.path);
+    }
+    res.status(200).json({
+      message: 'success upload',
+      status: 'Ok',
+      data: { url: response.url },
+    });
+  } else {
+    next(new ErrorHttp('File does not send, try again.', 403));
   }
-
-  res.status(200).json({
-    msg: 'success upload',
-    response,
-  });
 }
 
-async function uploadMultipleHandler(req, res) {
+async function uploadMultipleHandler(req, res, next) {
   const { files, body } = req;
   const response = [];
 
@@ -49,6 +50,6 @@ async function uploadMultipleHandler(req, res) {
   });
 }
 module.exports = {
-  uploadSigleHandler,
+  uploadSingleHandler,
   uploadMultipleHandler,
 };

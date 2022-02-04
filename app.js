@@ -4,7 +4,7 @@ const http = require('http');
 const { port, nodEnv } = require('./config/index');
 const { connectToDb } = require('./config/database');
 const passport = require('passport');
-var cors = require('cors');
+const cors = require('cors');
 
 // Middlewares
 const errorHandler = require('./middlewares/handlerError.middleware');
@@ -27,6 +27,7 @@ app.use(cors());
 connectToDb();
 
 app.use(express.json());
+app.use(cors());
 
 //Inizialice passport
 require('./utils/passport/index');

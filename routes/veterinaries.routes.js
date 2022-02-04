@@ -6,10 +6,6 @@ const {
 } = require('../controllers/veterinary.controller');
 const { body } = require('express-validator');
 const passport = require('passport');
-const validateJWT = passport.authenticate('jwt', {
-  session: false,
-  failWithError: true,
-});
 
 const router = express.Router();
 
