@@ -4,14 +4,16 @@ const http = require('http');
 const { port, nodEnv } = require('./config/index');
 const { connectToDb } = require('./config/database');
 const passport = require('passport');
+var cors = require('cors');
 
 // Middlewares
 const errorHandler = require('./middlewares/handlerError.middleware');
 
 const app = express();
 const PORT = port || 4000;
+app.use(cors());
 //cors
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
     'Access-Control-Allow-Headers',
@@ -20,7 +22,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
-});
+}); */
 
 connectToDb();
 
