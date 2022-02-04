@@ -5,6 +5,11 @@ const { port, nodEnv } = require('./config/index');
 const { connectToDb } = require('./config/database');
 const passport = require('passport');
 
+// Middlewares
+const errorHandler = require('./middlewares/handlerError.middleware');
+
+const app = express();
+const PORT = port || 4000;
 //cors
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -16,11 +21,6 @@ app.use((req, res, next) => {
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
-// Middlewares
-const errorHandler = require('./middlewares/handlerError.middleware');
-
-const app = express();
-const PORT = port || 4000;
 
 connectToDb();
 
