@@ -7,13 +7,15 @@ cloudinary.config({
   api_secret: process.env.CLOUD_SECRET_KEY,
 });
 async function uploadSigleHandler(req, res) {
+  console.log('req', req);
   const { file, body } = req;
+
   console.log('files', file);
   const response = [];
 
   try {
     const result = await cloudinary.uploader.upload(file.path);
-    console.log(result);
+
     response.push(result);
   } catch (e) {
     res.status(500).json(e);
