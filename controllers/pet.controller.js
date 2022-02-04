@@ -65,15 +65,32 @@ const deletePet = asyncHandler(async (req, res, next) => {
     }
 })
 
-const findPetsByOwner = asyncHandler(async (req, res, next) => {
 
-    const ownerId = req.params.customerId;
-    await PetServices.getByOwner(ownerId)
-        res.status(200).json({
-            message: 'The pets was successfully list',
-            status: 'OK',
-            data: pets
+const findPetsByOwner = async (req, res, next) => {
+    try{
+        const ownerId = req.params.customerId;
+        const pets = await PetServices.getByOwner(ownerId)
+        if(pets.length){
+            res.status(200).json({
+                message: 'The pets was successfully list',
+                status: 'OK',
+                data: pets
+            });
+        }else{
+            res.status(201).json({
+                message: `User doesn't have pets yet.`,
+                status: 'OK',
+                data: []
+            });
+        }
+    } catch (error) {
+        res.status(503).json({
+            message: 'The pest could not be list. Please try again.',
+            status: 'Failed',
+            data: error
         });
-})
+    }
+}
+
 
 module.exports = { findPet, registerPet, updatePet, deletePet, findPetsByOwner };

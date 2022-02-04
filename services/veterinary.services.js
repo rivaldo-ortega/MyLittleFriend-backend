@@ -7,10 +7,25 @@ const veterinaryService = {
             await newVeterinary.save();
             return newVeterinary;
         } catch (error) {
-            throw new Error(error);
+            return error;
         }
     },
-
+    async get() {
+        try {
+            const veterinaries = Veterinary.find().select({ __v: 0 });
+            return veterinaries;
+        } catch (error) {
+            return error;
+        }
+    },
+    async getById(veterinaryId) {
+        try {
+            const veterinary = Veterinary.findById(veterinaryId).select({ __v: 0 });
+            return veterinary;
+        } catch (error) {
+            return error;
+        }
+    },
 };
 
 module.exports = veterinaryService;
