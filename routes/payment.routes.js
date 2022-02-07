@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
 const passport = require('passport');
-const { generetaCardtoken, generateCustomerToken, makePayment } = require('../utils/epayco/controller.js');
+const { generetaCardtoken, generateCustomerToken, makePayment, deleteCardToken } = require('../utils/epayco/controller.js');
 const validateJWT = passport.authenticate('jwt', { session:false, failWithError: true });
 
 router.post('/customer',
@@ -45,5 +45,7 @@ router.post('/',
   body('ip').isString(),
   makePayment
 )
+
+router.delete('/', deleteCardToken )
 
 module.exports = router;

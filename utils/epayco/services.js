@@ -45,4 +45,13 @@ const registerPayment = async(pay) => {
   }
 };
 
-module.exports = { registerCard, registerCustomer, registarCardForCustomer, registerPayment }
+const deleteTokenCardToCustomer = async(customer) => {
+  try{
+    const customerDeleted = await epayco.customers.delete(customer);
+    return customerDeleted;
+  } catch (error) {
+    throw new ErrorHttp(error, 503);
+  }
+};
+
+module.exports = { registerCard, registerCustomer, registarCardForCustomer, registerPayment, deleteTokenCardToCustomer }

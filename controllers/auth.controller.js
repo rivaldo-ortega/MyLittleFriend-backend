@@ -7,7 +7,7 @@ const loginCustomer = (req, res) => {
           sub: req.user._id,
           email: req.user.email
       };
-      const token = jwt.sign(payload , secret, { expiresIn: '1h' });
+      const token = jwt.sign(payload , secret);
       res.status(200).json({
         message: 'The customer was successfully login',
         status: 'OK',
