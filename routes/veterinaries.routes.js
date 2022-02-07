@@ -1,27 +1,27 @@
 const express = require('express');
-const { registerVeterinary } = require('../controllers/veterinary.controller');
+const { registerVeterinary, listVeterinaries, findVeterinary } = require('../controllers/veterinary.controller');
 const { body } = require('express-validator')
 const passport = require('passport');
-const validateJWT = passport.authenticate('jwt', { session:false, failWithError: true });
 
 const router = express.Router();
 
 /**
  * GET
  */
-router.get('/', (req, res, next) => {
-    res.status(200).json({
-        data: 'Veterinaries list',
-        message: 'OK'
-    });
-});
+router.get(
+    '/',
+    listVeterinaries
+);
+router.get(
+    '/:veterinaryId',
+    findVeterinary
+);
 
 /**
  * GET
  */
 router.post(
     '/',
-    validateJWT,
     body('name').notEmpty(),
     body('detail').optional({ checkFalsy: true }).isString(),
     body('location').notEmpty(),

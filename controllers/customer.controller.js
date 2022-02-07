@@ -48,6 +48,17 @@ const signUpCustomer = asyncHandler(async (req, res, next) => {
     }
 })
 
+const findPaymentDataById = asyncHandler(async (req, res, next) => {
+    const { customerId } = req.params;
+
+    const customer = await CustomerServices.findById(customerId);
+        res.status(200).json({
+            message: 'The customer payment data  was successfully listed',
+            status: 'OK',
+            data: { cards: customer.cards || [], customerPaymentId: customer.customer_payment_id || '' }
+        });
+})
 
 
-module.exports = { findCustomer, signUpCustomer };
+
+module.exports = { findCustomer, signUpCustomer, findPaymentDataById };

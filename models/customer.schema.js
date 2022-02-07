@@ -12,6 +12,9 @@ const CustomerSchema = new Schema({
     passwordResetToken: String,
     passwordResetExpires: Date,
     active: {type: Boolean, default: false},
+    customer_payment_id: { type: String },
+    cards: [],
+    payments: []
 });
 
 module.exports = mongoose.model('Customer', CustomerSchema);
