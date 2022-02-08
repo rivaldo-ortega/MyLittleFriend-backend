@@ -22,5 +22,6 @@ jobs:
           commmand: npm install
 workflows:
   heroku_deploy:
-    jobs: -buil
-      -test
+    jobs:
+      - build
+      - test
