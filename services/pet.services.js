@@ -41,9 +41,12 @@ const PetServices = {
 
     async updatePetById(id, pet) {
         try {
-            const newPet = await new Pet(pet);
-            const updatePet = await Pet.findByIdAndUpdate(id, newPet);
-            return updatePet;
+            const currentPet = await Pet.findById(id);
+            if(pet.birthdate != '') currentPet.birthdate = pet.birthdate;
+            if(pet.detail != '') currentPet.detail = pet.detail;
+            if(pet.avatar_url != '') currentPet.avatar_url = pet.avatar_url;
+            const petUpdated = await currentPet.save()
+            return petUpdated;
         } catch (error) {
             throw new Error(error);
         }

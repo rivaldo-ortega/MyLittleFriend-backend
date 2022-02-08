@@ -41,10 +41,8 @@ router.post(
 router.put(
     '/:petId',
     validateJWT,
-    body('name').isString().notEmpty(),
     body('detail').optional({ checkFalsy: true }).isString(),
     body('birthdate', 'Invalid date of birth').toDate(),
-    body('type').isString().notEmpty(),
     body('avatar_url').optional({ checkFalsy: true }).isString(),
     updatePet
 );
@@ -53,9 +51,8 @@ router.put(
  * DELETE
  */
 router.delete(
-    '/',
+    '/:petId',
     validateJWT,
-    body('id').isString().notEmpty(),
     deletePet
 );
 

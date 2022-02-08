@@ -27,6 +27,19 @@ const customerService = {
             throw new ErrorHttp(error, 503);
         }
     },
+    async activeUser(query) {
+        try{
+            const userVali = await Customer.findOne(query);
+            userVali.active = true;
+            userVali.passwordResetToken = null;
+            userVali.passwordResetExpires = null;
+            await userVali.save();
+            return userVali;
+        } catch (error){
+            return new ErrorHttp(error, 404)
+        }
+        
+    },
     async addCustomerPaymentId(id, paymentId) {
         try {
             const customer = await Customer.findById(id);
@@ -58,7 +71,17 @@ const customerService = {
         } catch (error) {
             throw new ErrorHttp(error, 503);
         }
-    }
+    },
+    async deleteCard(id) {
+        try {
+            const customer = await Customer.findById(id);
+            customer.cards = [];
+            const customerUpdated = await customer.save();
+            return customerUpdated;
+        } catch (error) {
+            throw new ErrorHttp(error, 503);
+        }
+    },
 };
 
 module.exports = customerService;

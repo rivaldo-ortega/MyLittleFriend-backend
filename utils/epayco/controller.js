@@ -1,7 +1,7 @@
 const asyncHandler = require('../../middlewares/asyncHandler.middleware.js');
 const customerServices =  require('../../services/customer.services');
 const { validationResult } = require('express-validator');
-const { registerCard, registerCustomer, registarCardForCustomer, registerPayment, deleteCustomer } =  require('./services.js');
+const { registerCard, registerCustomer, registarCardForCustomer, registerPayment, deleteTokenCardToCustomer } =  require('./services.js');
 
 const defineCustomer = (customerData) => {
   const { cardToken, name, lastName, email, city, address, phone, cellPhone } = customerData;
@@ -118,4 +118,25 @@ const makePayment = asyncHandler(async (req, res, next) => {
 
 });
 
-module.exports = { generetaCardtoken, generateCustomerToken, makePayment }
+const deleteCardToken = asyncHandler(async (req, res, next) => {
+
+  const { customerPaymentId, customerId } = req.body;
+
+  var delete_customer_info = {
+    franchise : "visa",
+    mask : "457562******0326",
+    customer_id: customerPaymentId
+  }
+
+  const cardDeleted = await deleteTokenCardToCustomer(delete_customer_info);
+
+  await customerServices.deleteCard(customerId)
+
+  res.status(201).json({
+    message: 'The card was successfully deleted.',
+    status: 'Ok',
+    data: {}
+  })
+})
+
+module.exports = { generetaCardtoken, generateCustomerToken, makePayment, deleteCardToken }
