@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: Instalando dependencias para llevar a produccion
-          commmand: npm install
+          command: npm install
   test:
     docker:
       - image: circleci/node
@@ -18,7 +18,7 @@ jobs:
       - checkout
       - run:
           name: Instalando dependencias para llevar a produccion
-          commmand: npm install
+          command: npm install
 workflows:
   heroku_deploy:
     jobs:
