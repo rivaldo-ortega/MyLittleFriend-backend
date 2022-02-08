@@ -1,4 +1,5 @@
 const RequestServServices = require('../services/requestservice.services');
+const AttendaceServices = require('../services/attendace.services');
 const { validationResult } = require('express-validator');
 const asyncHandler = require('../middlewares/asyncHandler.middleware.js');
 
@@ -34,6 +35,8 @@ const registerRequestService = asyncHandler(async (req, res, next) => {
     const petId = req.body.pet;
 
     await RequestServServices.register(requestServiceJson, veterinaryId, petId);
+    const attendaceJson = { date: req.body.date, veterinary: veterinaryId, pet: petId };
+    await AttendaceServices.register(attendaceJson, petId);
     res.status(200).json({
         message: 'The request was successfully registered',
         status: 'OK',

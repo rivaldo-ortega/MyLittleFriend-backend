@@ -7,7 +7,8 @@ const AttendanceSchema = new Schema({
     date: { type: Date, required: true },
     veterinary: { type: Schema.Types.ObjectId, ref: 'Veterinary', required: true },
     pet: { type: Schema.Types.ObjectId, ref: 'Pet', required: true },
-    attendance_detail: { type: String, required: true },
+    status: { type: String, required: false, default: 'Pendiente' },
+    attendance_detail: { type: String, required: false },
     recipe: [RecipeSchema],
 });
 

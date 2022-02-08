@@ -39,7 +39,7 @@ const customerService = {
             return new ErrorHttp(error, 404)
         }
         
-      }
+    },
     async addCustomerPaymentId(id, paymentId) {
         try {
             const customer = await Customer.findById(id);

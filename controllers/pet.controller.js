@@ -36,9 +36,9 @@ const updatePet = asyncHandler(async (req, res, next) => {
         next(errors)
     } else {
         const { petId } = req.params;
-        const { name, detail, birthdate, type, avatar_url } = req.body;
+        const { birthdate, detail, avatar_url } = req.body;
 
-        await PetServices.updatePetById(petId, { name, detail, birthdate, type, avatar_url, _id: petId });
+        await PetServices.updatePetById(petId, { detail, birthdate, avatar_url });
             res.status(200).json({
                 message: 'The pet was successfully updated',
                 status: 'OK',
@@ -54,7 +54,7 @@ const deletePet = asyncHandler(async (req, res, next) => {
     if (!errors.isEmpty()) {
         next(errors)
     } else {
-        const { id } = req.body;
+        const { petId } = req.params;
 
         await PetServices.deletePetById(id);
             res.status(200).json({
