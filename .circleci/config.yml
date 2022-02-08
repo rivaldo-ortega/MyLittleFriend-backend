@@ -10,9 +10,6 @@ jobs:
       - run:
           name: Instalando dependencias para llevar a produccion
           commmand: npm install
-      - run:
-          name: Corriendo el lint para correr el proyecto
-          comand: npm run lint
   test:
     docker:
       - image: circleci/node
