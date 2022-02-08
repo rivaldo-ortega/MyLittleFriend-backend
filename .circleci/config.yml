@@ -13,9 +13,7 @@ jobs:
       - run:
           name: Instalando dependencias para llevar a produccion
           command: npm install
-      - run:
-          name: Iniciando el servidor
-          command: npm run start
+
 workflows:
   heroku_deploy:
     jobs:
