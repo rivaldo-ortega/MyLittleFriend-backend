@@ -71,7 +71,17 @@ const customerService = {
         } catch (error) {
             throw new ErrorHttp(error, 503);
         }
-    }
+    },
+    async deleteCard(id) {
+        try {
+            const customer = await Customer.findById(id);
+            customer.cards = [];
+            const customerUpdated = await customer.save();
+            return customerUpdated;
+        } catch (error) {
+            throw new ErrorHttp(error, 503);
+        }
+    },
 };
 
 module.exports = customerService;

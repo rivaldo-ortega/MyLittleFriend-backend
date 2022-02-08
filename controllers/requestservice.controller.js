@@ -34,8 +34,8 @@ const registerRequestService = asyncHandler(async (req, res, next) => {
     const veterinaryId = req.body.veterinary;
     const petId = req.body.pet;
 
-    await RequestServServices.register(requestServiceJson, veterinaryId, petId);
-    const attendaceJson = { date: req.body.date, veterinary: veterinaryId, pet: petId };
+    const newRequest = await RequestServServices.register(requestServiceJson, veterinaryId, petId);
+    const attendaceJson = { date: req.body.date, veterinary: veterinaryId, pet: petId, request: newRequest.id };
     await AttendaceServices.register(attendaceJson, petId);
     res.status(200).json({
         message: 'The request was successfully registered',

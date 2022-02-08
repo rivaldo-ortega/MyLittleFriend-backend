@@ -56,7 +56,7 @@ const deletePet = asyncHandler(async (req, res, next) => {
     } else {
         const { petId } = req.params;
 
-        await PetServices.deletePetById(id);
+        await PetServices.deletePetById(petId);
             res.status(200).json({
                 message: 'The pet was successfully deleted',
                 status: 'OK',
