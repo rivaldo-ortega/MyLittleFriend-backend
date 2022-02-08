@@ -2,24 +2,23 @@ version: 2.1
 
 jobs:
   build:
-    docker: -image:circleci/node
+    docker:
+      - image: circleci/node
     working_directory: ~/project
     steps:
       - checkout
       - run:
           name: Instalando dependencias para llevar a produccion
-          commmand: npm install
-      - run:
-          name: Corriendo el lint para correr el proyecto
-          comand: npm run lint
+          command: npm install
   test:
-    docker: -image:circleci/node
+    docker:
+      - image: circleci/node
     working_directory: ~/project
     steps:
       - checkout
       - run:
           name: Instalando dependencias para llevar a produccion
-          commmand: npm install
+          command: npm install
 workflows:
   heroku_deploy:
     jobs:
