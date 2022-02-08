@@ -2,7 +2,8 @@ version: 2.1
 
 jobs:
   build:
-    docker: -image:circleci/node
+    docker:
+      - image: circleci/node
     working_directory: ~/project
     steps:
       - checkout
@@ -13,7 +14,8 @@ jobs:
           name: Corriendo el lint para correr el proyecto
           comand: npm run lint
   test:
-    docker: -image:circleci/node
+    docker:
+      - image: circleci/node
     working_directory: ~/project
     steps:
       - checkout
