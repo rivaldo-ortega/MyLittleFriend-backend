@@ -11,7 +11,7 @@ async function uploadSingleHandler(req, res, next) {
   const { file, body } = req;
   let response = null;
 
-  if(file){
+  if (file) {
     try {
       const result = await cloudinary.uploader.upload(file.path);
       response = result;
@@ -25,8 +25,8 @@ async function uploadSingleHandler(req, res, next) {
       status: 'Ok',
       data: { url: response.url },
     });
-  }else {
-    next(new ErrorHttp('File does not send, try again.', 403))
+  } else {
+    next(new ErrorHttp('File does not send, try again.', 403));
   }
 }
 

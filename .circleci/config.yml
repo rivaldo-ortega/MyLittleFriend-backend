@@ -1,0 +1,26 @@
+version: 2.1
+
+orbs:
+  heroku: circleci/heroku@1.2.6
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node
+    working_directory: ~/project
+    steps:
+      - checkout
+      - run:
+          name: Instalando dependencias para llevar a produccion
+          command: npm install
+
+workflows:
+  heroku_deploy:
+    jobs:
+      - build
+      - heroku/deploy-via-git:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main

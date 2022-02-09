@@ -7,10 +7,22 @@ const passport = require('passport');
 const cors = require('cors');
 
 // Middlewares
-const errorHandler = require('./middlewares/handlerError.middleware')
+const errorHandler = require('./middlewares/handlerError.middleware');
 
 const app = express();
 const PORT = port || 4000;
+app.use(cors());
+//cors
+/* app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+}); */
 
 connectToDb();
 
@@ -28,4 +40,6 @@ app.use(errorHandler);
 
 const server = http.createServer(app);
 
-server.listen(PORT, () => console.log(`Server running in ${nodEnv} mode on port ${PORT}`));
+server.listen(PORT, () =>
+  console.log(`Server running in ${nodEnv} mode on port ${PORT}`)
+);
