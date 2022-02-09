@@ -6,7 +6,7 @@ const PetServices = {
     async findPetById(id) {
         try {
             const pet = await Pet.findById(id).select({ __v: 0 }).populate({
-                path: 'medical_history', 
+                path: 'medical_history',
                 model: 'Attendance',
                 select: {
                     'date': 1,
