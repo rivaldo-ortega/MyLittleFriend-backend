@@ -14,21 +14,23 @@ const PetServices = {
                     'attendance_detail': 1,
                     'recipe': 1
                 },
-                populate:{
-                    path: 'request',
-                    model: 'RequestService',
-                    select: {
-                        'service': 1,
-                        'price': 1
+                populate: [
+                    {
+                        path: 'request',
+                        model: 'RequestService',
+                        select: {
+                            'service': 1,
+                            'price': 1
+                        }
                     },
-                },
-                populate: {
-                    path: 'veterinary',
-                    model: 'Veterinary',
-                    select: {
-                        'name': 1
-                    },
-                }
+                    {
+                        path: 'veterinary',
+                        model: 'Veterinary',
+                        select: {
+                            'name': 1
+                        },
+                    }
+                ]
             });
             return pet;
         } catch (error) {
