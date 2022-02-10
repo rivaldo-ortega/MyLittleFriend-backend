@@ -39,13 +39,10 @@ const verifyAccount = asyncHandler( async (req, res, next) => {
     if(Date.now() > user.papasswordResetExpires){
       return res.status(404).json({ message: 'Expired token'})
     }
-    return res.status(200).json({
+    return res.status(201).json({
       message: 'Account verified!',
       status: 'OK',
-      data: {
-        user,
-        token
-      },
+      data: {},
     });
 })
 
