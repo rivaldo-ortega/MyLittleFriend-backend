@@ -11,11 +11,15 @@ const LocalStrategy = new Strategy(
             if(!user){
                 return done({ message: 'Email or password incorrect. Please try again.' }, false)
             }else if(user){
-                const isMatch = await bcrypt.compare(password, user.password);
-                if(isMatch){
-                    done(null, user)
+                if(user.active){
+                    const isMatch = await bcrypt.compare(password, user.password);
+                    if(isMatch){
+                        done(null, user)
+                    }else{
+                        return done({ message: 'Email or password incorrect. Please try again.' }, false)
+                    }
                 }else{
-                    return done({ message: 'Email or password incorrect. Please try again.' }, false)
+                    return done({ message: 'You need activate your account.' }, false)
                 }
             } else {
                 return done({ message: 'Email or password incorrect. Please try again.' }, false)

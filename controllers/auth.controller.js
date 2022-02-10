@@ -41,7 +41,14 @@ const verifyAccount = asyncHandler( async (req, res, next) => {
     }
     return res.status(200).json({
       message: 'Account verified!',
-      user,
+      status: 'OK',
+      data: {
+        id: req.user._id,
+        full_name: req.user.full_name,
+        address: req.user.address,
+        avatar_url: req.user.avatar_url,
+        token
+      },
     });
 })
 
