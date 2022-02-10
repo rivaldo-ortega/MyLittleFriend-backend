@@ -30,13 +30,16 @@ const customerService = {
     async activeUser(query) {
         try{
             const user = await Customer.findOne(query);
+            if(!user){
+                throw new ErrorHttp('User not registered.', 403)
+            }
             user.active = true;
             user.passwordResetToken = null;
             user.passwordResetExpires = null;
             const userValidated = await user.save();
             return userValidated;
         } catch (error){
-            return new ErrorHttp(error, 404)
+            throw new ErrorHttp(error, 404)
         }
         
     },

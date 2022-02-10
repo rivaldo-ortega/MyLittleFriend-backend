@@ -32,10 +32,7 @@ const loginCustomer = (req, res) => {
 
 const verifyAccount = asyncHandler( async (req, res, next) => {
   const {hash} = req.body;
-    const user = await activeUser({passwordResetToken: hash})
-    if(!user){
-      return res.status(400).json({ message: 'Invalid'})
-    }
+    const user = await activeUser({passwordResetToken: hash});
     if(Date.now() > user.papasswordResetExpires){
       return res.status(404).json({ message: 'Expired token'})
     }
