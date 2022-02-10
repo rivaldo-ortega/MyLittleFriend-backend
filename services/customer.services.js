@@ -29,12 +29,12 @@ const customerService = {
     },
     async activeUser(query) {
         try{
-            const userVali = await Customer.findOne(query);
-            userVali.active = true;
-            userVali.passwordResetToken = null;
-            userVali.passwordResetExpires = null;
-            await userVali.save();
-            return userVali;
+            const user = await Customer.findOne(query);
+            user.active = true;
+            user.passwordResetToken = null;
+            user.passwordResetExpires = null;
+            const userValidated = await user.save();
+            return userValidated;
         } catch (error){
             return new ErrorHttp(error, 404)
         }
