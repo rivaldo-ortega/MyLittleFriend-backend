@@ -48,7 +48,7 @@ const signUpCustomer = asyncHandler(async (req, res, next) => {
         dynamic_template_data: {
           firstName: newUser.full_name,
           url: `${process.env.URL_VALIDATE_REGISTER}login/${newUser.passwordResetToken}`,
-          urlHome: 'https://eager-ramanujan-86071f.netlify.app/',
+          urlHome: 'https://mylittlefriend-top19.netlify.app/',
         },
       };
       await sendEmail(messageForEmail);
